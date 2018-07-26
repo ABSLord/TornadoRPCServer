@@ -10,7 +10,6 @@ from tornado.log import app_log as log
 from tornado.options import define, options
 from wsrpc import WebSocketRoute, WebSocketThreaded as WebSocket, wsrpc_static
 
-
 define("listen", default='localhost')
 define("port", default=9090, type=int)
 
