@@ -3,7 +3,7 @@ chardet==3.0.4
 docker==3.4.1
 docker-pycreds==0.3.0
 idna==2.7
-pypiwin32==220
+#pypiwin32==220
 requests==2.19.1
 six==1.11.0
 #tornado==5.1

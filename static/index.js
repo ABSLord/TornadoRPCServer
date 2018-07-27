@@ -1,13 +1,15 @@
 $(document).ready(function () {
 
     function runClick(id) {
-        debugger;
+        $("body").css("cursor", "progress");
         RPC.call('docker.run', id).then(
             function (message) {
+                $("body").css("cursor", "default");
                 alert(message);
                 get_images();
                 get_containers();
             }, function (error) {
+                $("body").css("cursor", "default");
                 alert(error);
                 get_images();
                 get_containers();
@@ -16,7 +18,6 @@ $(document).ready(function () {
 
     function createImagesList(images) {
         $('#images-list').empty();
-        debugger;
         for (var key in images) {
             $('#images-list').append("<a class='list-group-item' data-toggle='list' role='tab' id=" + key + "_" + ">" + images[key] + "<button type='button' style='float: right;' id=" + key + ">Run</button>" + "</a>");
 
@@ -73,24 +74,30 @@ $(document).ready(function () {
     }
 
     $('#start').on('click', function () {
-        var id = $(".panel-heading").text().split(': ')[0]
+        var id = $(".panel-heading").text().split(': ')[0];
+        $("body").css("cursor", "progress");
         RPC.call('docker.start', id).then(
             function (message) {
+                $("body").css("cursor", "default");
                 alert(message);
                 get_containers();
             }, function (error) {
+                $("body").css("cursor", "default");
                 alert(error);
                 get_containers();
             });
     });
 
     $('#stop').on('click', function () {
-        var id = $(".panel-heading").text().split(': ')[0]
+        var id = $(".panel-heading").text().split(': ')[0];
+        $("body").css("cursor", "progress");
         RPC.call('docker.stop', id).then(
             function (message) {
+                $("body").css("cursor", "default");
                 alert(message);
                 get_containers();
             }, function (error) {
+                $("body").css("cursor", "default");
                 alert(error);
                 get_containers();
             });
@@ -98,12 +105,15 @@ $(document).ready(function () {
 
 
     $('#remove').on('click', function () {
-        var id = $(".panel-heading").text().split(': ')[0]
+        var id = $(".panel-heading").text().split(': ')[0];
+        $("body").css("cursor", "progress");
         RPC.call('docker.remove', id).then(
             function (message) {
-                alert("Ok!");
+                $("body").css("cursor", "default");
+                alert(message);
                 get_containers();
             }, function (error) {
+                $("body").css("cursor", "default");
                 alert(error);
                 get_containers();
             });
