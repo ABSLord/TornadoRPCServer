@@ -2,6 +2,7 @@
 
 import os
 import docker
+from docker.errors import ImageNotFound, NotFound, DockerException
 import tornado.web
 import tornado.httpserver
 import tornado.ioloop
@@ -34,40 +35,47 @@ CLIENT = docker.from_env()
 
 class Routes(WebSocketRoute):
 
-    def run(self, id):
-        print(id)
-        image_id = id
+    def run(self, image_id):
+        log.info('method: run; image_id: {0}'.format(image_id))
         try:
             container = CLIENT.containers.run(image_id, detach=True)
-        except Exception as e:
-            return str(e)
+        except ImageNotFound:
+            return 'image {0} not found'.format(image_id)
+        except DockerException:
+            return 'docker error'
         return "Container {0} was successfully runned".format(container.short_id)
 
-    def start(self, id):
-        container_id = id
+    def start(self, container_id):
+        log.info('method: start; container_id: {0}'.format(container_id))
         try:
             container = CLIENT.containers.get(container_id)
             container.start()
-        except Exception as e:
-            return str(e)
+        except NotFound:
+            return 'container {0} not found'.format(container_id)
+        except DockerException:
+            return 'docker error'
         return "Container {0} was successfully started".format(container_id)
 
-    def stop(self, id):
-        container_id = id
+    def stop(self, container_id):
+        log.info('method: stop; container_id: {0}'.format(container_id))
         try:
             container = CLIENT.containers.get(container_id)
             container.stop()
-        except Exception as e:
-            return str(e)
+        except NotFound:
+            return 'container {0} not found'.format(container_id)
+        except DockerException:
+            return 'docker error'
         return "Container {0} was successfully stopped".format(container_id)
 
-    def remove(self, id):
-        container_id = id
+    def remove(self, container_id):
+        log.info('method: remove; container_id: {0}'.format(container_id))
         try:
             container = CLIENT.containers.get(container_id)
             container.remove()
-        except Exception as e:
-            return str(e)
+        except NotFound:
+            return 'container {0} not found'.format(container_id)
+        except DockerException:
+            return 'docker error'
         return "Container {0} was successfully deleted".format(container_id)
 
 
