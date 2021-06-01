@@ -7,6 +7,6 @@ idna==2.7
 requests==2.19.1
 six==1.11.0
 #tornado==5.1
-urllib3==1.23
+urllib3==1.26.5
 websocket-client==0.48.0
 wsrpc-tornado==0.5.6
